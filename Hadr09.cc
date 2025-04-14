@@ -28,13 +28,13 @@ int main(int, char**) {
   // Enable hypernuclei (not used here, but harmless to keep)
   G4HadronicParameters::Instance()->SetEnableHyperNuclei(true);
 
-  const G4String namePhysics = "FTFP_BERT";
+  const G4String namePhysics = "INCL";
   const G4int numCollisions = 1000;
 
   // Fixed configuration
   const G4String nameProjectile = "proton";
   const G4String nameMaterial = "G4_Fe";
-  const G4double projectileEnergy = 13.0 * CLHEP::GeV;
+  const G4double projectileEnergy = 5.0 * CLHEP::GeV;
   const G4ThreeVector aDirection(0.0, 0.0, 1.0);
 
   // Construct standard Geant4 particles
@@ -96,19 +96,27 @@ int main(int, char**) {
     G4int nsec = aChange ? aChange->GetNumberOfSecondaries() : 0;
 
     if (isPrintingEnabled) {
-      G4cout << "\t Collision " << i
-             << " ; projectile=" << nameProjectile
-             << " ; Ekin[GeV]=" << projectileEnergy / CLHEP::GeV
-             << " ; direction=" << aDirection
-             << " ; material=" << nameMaterial << G4endl;
 
-      G4cout << "\t --> #secondaries=" << nsec
-             << " ; impactParameter[fm]=" << theHadronicGenerator->GetImpactParameter() / fermi
-             << " ; #projectileSpectatorNucleons="
-             << theHadronicGenerator->GetNumberOfProjectileSpectatorNucleons()
-             << " ; #targetSpectatorNucleons="
-             << theHadronicGenerator->GetNumberOfTargetSpectatorNucleons()
-             << " ; #NNcollisions=" << theHadronicGenerator->GetNumberOfNNcollisions() << G4endl;
+       G4cout << "\n================================================================"
+              << "\n Collision #" << i
+              << "\n ----------------------------------------------------------------"
+              << "\n   Projectile:       " << nameProjectile
+              << "\n   Kinetic Energy:   " << std::fixed << std::setprecision(2)
+              << projectileEnergy / CLHEP::GeV << " GeV"
+              << "\n   Direction:        " << aDirection
+              << "\n   Target Material:  " << nameMaterial
+
+              << "\n\n   Impact Parameter:           "
+              << theHadronicGenerator->GetImpactParameter() / fermi << " fm"
+              << "\n   Projectile Spectators:       "
+              << theHadronicGenerator->GetNumberOfProjectileSpectatorNucleons()
+              << "\n   Target Spectators:           "
+              << theHadronicGenerator->GetNumberOfTargetSpectatorNucleons()
+              << "\n   Number of NN Collisions:     "
+              << theHadronicGenerator->GetNumberOfNNcollisions()
+              << "\n   Number of Secondaries:       " << nsec
+              << "\n ----------------------------------------------------------------\n";
+
 
       G4cout << "\n"
              << "    j    Name         px [MeV]     py [MeV]     pz [MeV]     E [MeV]\n"
