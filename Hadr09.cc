@@ -79,17 +79,7 @@ int main(int, char**)
   // ( In short, it is the name of the Geant4 hadronic model used for the simulation of
   //   the collision, with the possibility of having a transition between two models in
   //   a given energy interval, as in physics lists. )
-  const G4String namePhysics = "FTFP_BERT";  //***LOOKHERE***  PHYSICS CASE
-  // const G4String namePhysics = "FTFP_BERT_ATL";
-  // const G4String namePhysics = "QGSP_BERT";
-  // const G4String namePhysics = "QGSP_BIC";
-  // const G4String namePhysics = "FTFP_INCLXX";
-  // const G4String namePhysics = "FTFP";
-  // const G4String namePhysics = "QGSP";
-  // const G4String namePhysics = "BERT";
-  // const G4String namePhysics = "BIC";
-  // const G4String namePhysics = "IonBIC";
-  // const G4String namePhysics = "INCL";
+  const G4String namePhysics = "FTFP_BERT";  
 
   // The kinetic energy of the projectile will be sampled randomly, with flat probability
   // in the interval [minEnergy, maxEnergy].
