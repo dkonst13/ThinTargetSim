@@ -128,6 +128,12 @@ class HadronicGenerator
                                            const G4double projectileEnergy,
                                            const G4ThreeVector& projectileDirection,
                                            G4Material* targetMaterial);
+    G4VParticleChange* GenerateInteraction(const G4String& nameProjectile,
+                                       const G4ThreeVector& projectileMomentum,
+                                       G4Material* targetMaterial);
+    G4VParticleChange* GenerateInteraction(G4ParticleDefinition* projectileDefinition,
+                                       const G4ThreeVector& projectileMomentum,
+                                       G4Material* targetMaterial);
     // This is the main method provided by the class:
     // in input it receives the projectile (either by name or particle definition),
     // its energy, its direction and the target material, and it returns one sampled

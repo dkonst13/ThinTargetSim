@@ -1052,8 +1052,8 @@ G4VParticleChange* HadronicGenerator::GenerateInteraction(
   const G4double aTime = 0.0;
   const G4ThreeVector aPosition = G4ThreeVector(0.0, 0.0, 0.0);
   G4Track* gTrack = new G4Track(&dParticle, aTime, aPosition);
-  G4TouchableHandle fpTouchable(new G4TouchableHistory);  // Not strictly needed
-  gTrack->SetTouchableHandle(fpTouchable);  // Not strictly needed
+  //G4TouchableHandle fpTouchable(new G4TouchableHistory);  // Not strictly needed
+  //gTrack->SetTouchableHandle(fpTouchable);  // Not strictly needed
   G4Step* step = new G4Step;
   step->SetTrack(gTrack);
   gTrack->SetStep(step);
@@ -1061,9 +1061,9 @@ G4VParticleChange* HadronicGenerator::GenerateInteraction(
   aPoint->SetPosition(aPosition);
   aPoint->SetMaterial(targetMaterial);
   step->SetPreStepPoint(aPoint);
-  dParticle.SetKineticEnergy(projectileEnergy);
-  gTrack->SetStep(step);
-  gTrack->SetKineticEnergy(projectileEnergy);
+//  dParticle.SetKineticEnergy(projectileEnergy);
+//  gTrack->SetStep(step);
+//  gTrack->SetKineticEnergy(projectileEnergy);
 
   // Change Geant4 state: from "PreInit" to "Idle" (not strictly needed)
   // if ( ! G4StateManager::GetStateManager()->SetNewState( G4State_Idle ) ) {
@@ -1192,6 +1192,43 @@ G4int HadronicGenerator::GetNumberOfNNcollisions() const
     }
   }
   return numNNcollisions;
+}
+
+G4VParticleChange* HadronicGenerator::GenerateInteraction(const G4String& nameProjectile,
+                                                          const G4ThreeVector& projectileMomentum,
+                                                          G4Material* targetMaterial)
+{
+  G4ParticleDefinition* projectileDefinition = fPartTable->FindParticle(nameProjectile);
+  if (!projectileDefinition) {
+    G4cerr << "ERROR: Unknown particle name: " << nameProjectile << G4endl;
+    return nullptr;
+  }
+
+  const G4double momentum = projectileMomentum.mag();  // in MeV/c
+  const G4double mass = projectileDefinition->GetPDGMass();  // in MeV/c^2
+  const G4double energy = std::sqrt(momentum * momentum + mass * mass);
+  const G4double kineticEnergy = energy - mass;
+  const G4ThreeVector direction = projectileMomentum.unit();
+
+  return GenerateInteraction(projectileDefinition, kineticEnergy, direction, targetMaterial);
+}
+
+G4VParticleChange* HadronicGenerator::GenerateInteraction(G4ParticleDefinition* projectileDefinition,
+                                                          const G4ThreeVector& projectileMomentum,
+                                                          G4Material* targetMaterial)
+{
+  if (!projectileDefinition) {
+    G4cerr << "ERROR: projectileDefinition is NULL!" << G4endl;
+    return nullptr;
+  }
+
+  const G4double momentum = projectileMomentum.mag();  // in MeV/c
+  const G4double mass = projectileDefinition->GetPDGMass();  // in MeV/c^2
+  const G4double energy = std::sqrt(momentum * momentum + mass * mass);
+  const G4double kineticEnergy = energy - mass;
+  const G4ThreeVector direction = projectileMomentum.unit();
+
+  return GenerateInteraction(projectileDefinition, kineticEnergy, direction, targetMaterial);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

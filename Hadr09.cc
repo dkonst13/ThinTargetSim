@@ -28,12 +28,12 @@ int main(int, char**) {
   // Enable hypernuclei (not used here, but harmless to keep)
   G4HadronicParameters::Instance()->SetEnableHyperNuclei(true);
 
-  const G4String namePhysics = "INCL";
+  const G4String namePhysics = "FTFP";
   const G4int numCollisions = 1000;
 
   // Fixed configuration
   const G4String nameProjectile = "proton";
-  const G4String nameMaterial = "G4_Fe";
+  const G4String nameMaterial = "G4_C";
   const G4double projectileEnergy = 5.0 * CLHEP::GeV;
   const G4ThreeVector aDirection(0.0, 0.0, 1.0);
 
@@ -88,10 +88,13 @@ int main(int, char**) {
   // Enable or disable all printing
   const G4bool isPrintingEnabled = true;
 
+
+G4ThreeVector mom(0, 0, 1*GeV);  // z-direction, 31 GeV/c
   // Loop over collisions
   for (G4int i = 0; i < numCollisions; ++i) {
-    G4VParticleChange* aChange = theHadronicGenerator->GenerateInteraction(
-      projectile, projectileEnergy, aDirection, material);
+    //G4VParticleChange* aChange = theHadronicGenerator->GenerateInteraction(
+    //      projectile, projectileEnergy, aDirection, material);
+auto aChange = theHadronicGenerator->GenerateInteraction(projectile, mom, material);
 
     G4int nsec = aChange ? aChange->GetNumberOfSecondaries() : 0;
 
