@@ -246,19 +246,9 @@ int main(int, char**)
   // (with uniform probability) for each collision and used as target material.
   // Note: comment out the corresponding line in order to exclude a material;
   //       or, vice versa, add a new line to extend the list with another material.
-  std::vector<G4String> vecMaterials;  //***LOOKHERE*** : NIST TARGET MATERIALS
-  vecMaterials.push_back("G4_H");
-  vecMaterials.push_back("G4_He");
-  vecMaterials.push_back("G4_Be");
-  vecMaterials.push_back("G4_C");
-  vecMaterials.push_back("G4_Al");
-  vecMaterials.push_back("G4_Si");
-  // vecMaterials.push_back( "G4_Sc" );
-  vecMaterials.push_back("G4_Ar");
-  vecMaterials.push_back("G4_Fe");
-  vecMaterials.push_back("G4_Cu");
-  vecMaterials.push_back("G4_W");
-  vecMaterials.push_back("G4_Pb");
+  G4String selectedMaterial = "G4_Fe"; // default
+  std::vector<G4String> vecMaterials;
+  vecMaterials.push_back(selectedMaterial);
 
   const G4int numProjectiles = vecProjectiles.size();
   const G4int numMaterials = vecMaterials.size();
