@@ -1,6 +1,11 @@
 #include "CLHEP/Units/SystemOfUnits.h"
 #include "HadronicGenerator.hh"
-
+#include "G4LeptonConstructor.hh"
+#include "G4MesonConstructor.hh"
+#include "G4BaryonConstructor.hh"
+#include "G4IonConstructor.hh"
+#include "G4BosonConstructor.hh"
+#include "G4ShortLivedConstructor.hh"
 #include "G4GenericIon.hh"
 #include "G4HadronicParameters.hh"
 #include "G4IonTable.hh"
@@ -32,6 +37,14 @@ int main(int, char**)
   const G4String nameMaterial = "G4_Fe";
   const G4double projectileEnergy = 13.0 * CLHEP::GeV;
   const G4ThreeVector aDirection(0.0, 0.0, 1.0);
+
+  // Construct standard Geant4 particles
+  G4LeptonConstructor().ConstructParticle();
+  G4MesonConstructor().ConstructParticle();
+  G4BaryonConstructor().ConstructParticle();
+  G4IonConstructor().ConstructParticle();
+  G4BosonConstructor().ConstructParticle();
+  G4ShortLivedConstructor().ConstructParticle();
 
   G4ParticleTable* partTable = G4ParticleTable::GetParticleTable();
   partTable->SetReadiness();
