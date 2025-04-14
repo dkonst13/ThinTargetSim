@@ -22,8 +22,7 @@
 
 #include <iomanip>
 
-int main(int, char**)
-{
+int main(int, char**) {
   G4cout << "=== Test of the HadronicGenerator ===" << G4endl;
 
   // Enable hypernuclei (not used here, but harmless to keep)
@@ -86,29 +85,24 @@ int main(int, char**)
     return 4;
   }
 
-  // Enable output control
+  // Enable or disable all printing
   const G4bool isPrintingEnabled = true;
-  const G4int printingGap = 100;
 
   // Loop over collisions
   for (G4int i = 0; i < numCollisions; ++i) {
-    if (isPrintingEnabled) {
-      G4cout << "\t Collision " << i
-             << " ; projectile=" << nameProjectile
-             << " ; Ekin[MeV]=" << projectileEnergy
-             << " ; direction=" << aDirection
-             << " ; material=" << nameMaterial;
-    }
-
     G4VParticleChange* aChange = theHadronicGenerator->GenerateInteraction(
       projectile, projectileEnergy, aDirection, material);
 
     G4int nsec = aChange ? aChange->GetNumberOfSecondaries() : 0;
-    G4bool isPrintingOfSecondariesEnabled = false;
 
     if (isPrintingEnabled) {
-      G4cout << G4endl
-             << "\t --> #secondaries=" << nsec
+      G4cout << "\t Collision " << i
+             << " ; projectile=" << nameProjectile
+             << " ; Ekin[GeV]=" << projectileEnergy / CLHEP::GeV
+             << " ; direction=" << aDirection
+             << " ; material=" << nameMaterial << G4endl;
+
+      G4cout << "\t --> #secondaries=" << nsec
              << " ; impactParameter[fm]=" << theHadronicGenerator->GetImpactParameter() / fermi
              << " ; #projectileSpectatorNucleons="
              << theHadronicGenerator->GetNumberOfProjectileSpectatorNucleons()
@@ -116,20 +110,24 @@ int main(int, char**)
              << theHadronicGenerator->GetNumberOfTargetSpectatorNucleons()
              << " ; #NNcollisions=" << theHadronicGenerator->GetNumberOfNNcollisions() << G4endl;
 
-      if (i % printingGap == 0) {
-        isPrintingOfSecondariesEnabled = true;
-        G4cout << "\t \t List of produced secondaries: " << G4endl;
-      }
-    }
+      G4cout << "\n"
+             << "    j    Name         px [MeV]     py [MeV]     pz [MeV]     E [MeV]\n"
+             << "-----------------------------------------------------------------------"
+             << G4endl;
 
-    for (G4int j = 0; j < nsec; ++j) {
-      const G4DynamicParticle* sec = aChange->GetSecondary(j)->GetDynamicParticle();
-      if (isPrintingOfSecondariesEnabled) {
-        G4cout << "\t \t \t j=" << j << "\t"
-               << sec->GetDefinition()->GetParticleName()
-               << "\t p=" << sec->Get4Momentum() << " MeV" << G4endl;
+      for (G4int j = 0; j < nsec; ++j) {
+        const G4DynamicParticle* sec = aChange->GetSecondary(j)->GetDynamicParticle();
+        const G4String pname = sec->GetDefinition()->GetParticleName();
+        const G4LorentzVector p4 = sec->Get4Momentum();
+
+        G4cout << std::setw(5) << j << "  "
+               << std::setw(10) << pname << "  "
+               << std::fixed << std::setprecision(2)
+               << std::setw(11) << p4.px() << "  "
+               << std::setw(11) << p4.py() << "  "
+               << std::setw(11) << p4.pz() << "  "
+               << std::setw(9)  << p4.e()  << G4endl;
       }
-      delete aChange->GetSecondary(j);
     }
 
     if (aChange) aChange->Clear();
