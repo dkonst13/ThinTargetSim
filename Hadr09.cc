@@ -147,11 +147,10 @@ int main(int, char**) {
   const G4bool isPrintingEnabled = true;
 
 
-G4ThreeVector mom(0, 0, 1*GeV);  // z-direction, 31 GeV/c
   // Loop over collisions
   for (G4int i = 0; i < numCollisions; ++i) {
 
-    auto aChange = theHadronicGenerator->GenerateInteraction(projectile, mom, material);
+    auto aChange = theHadronicGenerator->GenerateInteraction(projectile, projectileMomentum, material);
 
     G4int nsec = aChange ? aChange->GetNumberOfSecondaries() : 0;
 
