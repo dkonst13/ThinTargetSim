@@ -1,26 +1,39 @@
+// STL
+#include <iomanip>
+
+// CLHEP
 #include "CLHEP/Units/SystemOfUnits.h"
-#include "HadronicGenerator.hh"
+
+// Geant4 Core
+#include "globals.hh"
+#include "G4ios.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4UnitsTable.hh"
+#include "G4PhysicalConstants.hh"
+
+// Geant4 Materials and Particles
+#include "G4Material.hh"
+#include "G4NistManager.hh"
+#include "G4ParticleTable.hh"
+#include "G4IonTable.hh"
+#include "G4GenericIon.hh"
+#include "G4ProcessManager.hh"
+
+// Geant4 Constructors
 #include "G4LeptonConstructor.hh"
 #include "G4MesonConstructor.hh"
 #include "G4BaryonConstructor.hh"
 #include "G4IonConstructor.hh"
 #include "G4BosonConstructor.hh"
 #include "G4ShortLivedConstructor.hh"
-#include "G4GenericIon.hh"
-#include "G4HadronicParameters.hh"
-#include "G4IonTable.hh"
-#include "G4Material.hh"
-#include "G4NistManager.hh"
-#include "G4ParticleTable.hh"
-#include "G4PhysicalConstants.hh"
-#include "G4ProcessManager.hh"
-#include "G4SystemOfUnits.hh"
-#include "G4UnitsTable.hh"
-#include "G4VParticleChange.hh"
-#include "G4ios.hh"
-#include "globals.hh"
 
-#include <iomanip>
+// Geant4 Hadronics
+#include "G4VParticleChange.hh"
+#include "G4HadronicParameters.hh"
+
+// Local
+#include "HadronicGenerator.hh"
+
 
 int main(int, char**) {
   G4cout << "=== Test of the HadronicGenerator ===" << G4endl;
