@@ -147,6 +147,26 @@ int main(int, char**) {
   const G4bool isPrintingEnabled = true;
 
 
+
+  // --- Compute lab-frame 4-momentum of the system (projectile + target nucleus at rest) ---
+  const G4LorentzVector proj4mom_lab(projectileMomentum, totalEnergy);
+  const G4LorentzVector targ4mom_lab(G4ThreeVector(0., 0., 0.), nucleusMass);
+
+  const G4LorentzVector labv = proj4mom_lab + targ4mom_lab;
+
+  // --- CMS boost vector: direction and magnitude to boost to CMS ---
+  const G4ThreeVector cmsBoost = labv.boostVector();
+
+  G4cout << "\n=================  Frame Info ======================" << G4endl
+         << "Lab 4-momentum:       (" << labv.px() / CLHEP::GeV << ", "
+         << labv.py() / CLHEP::GeV << ", "
+         << labv.pz() / CLHEP::GeV << ", "
+         << labv.e()  / CLHEP::GeV << ") GeV" << G4endl
+         << "CMS Boost Vector:     " << cmsBoost << G4endl
+         << "Beta (|v|/c):         " << cmsBoost.mag() << G4endl
+         << "===================================================" << G4endl;
+
+
   // Loop over collisions
   for (G4int i = 0; i < numCollisions; ++i) {
 
