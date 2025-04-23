@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16...3.27)
-project(Hadr09)
+project(ThinTargetSim)
 
 # ----------------------------------------------------------------------------
 # Options
@@ -59,9 +59,9 @@ endif()
 
 # ----------------------------------------------------------------------------
 # Main executable
-set(MAIN_EXECUTABLE Hadr09)
+set(MAIN_EXECUTABLE ThinTargetSim)
 file(GLOB MAIN_SOURCES ${PROJECT_SOURCE_DIR}/src/*.cc)
-add_executable(${MAIN_EXECUTABLE} Hadr09.cc ${MAIN_SOURCES})
+add_executable(${MAIN_EXECUTABLE} ThinTargetSim.cc ${MAIN_SOURCES})
 
 target_link_libraries(${MAIN_EXECUTABLE} ${Geant4_LIBRARIES} dl)
 
@@ -97,8 +97,8 @@ endforeach()
 
 # ----------------------------------------------------------------------------
 # Optional: Copy runtime scripts
-set(Hadr09_SCRIPTS)
-foreach(_script ${Hadr09_SCRIPTS})
+set(ThinTargetSim_SCRIPTS)
+foreach(_script ${ThinTargetSim_SCRIPTS})
   configure_file(
     ${PROJECT_SOURCE_DIR}/${_script}
     ${PROJECT_BINARY_DIR}/${_script}
