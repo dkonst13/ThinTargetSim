@@ -20,6 +20,8 @@
 #include <getopt.h>
 #include <iostream>
 
+#include "YODA/WriterYODA.h"
+
 #include <dlfcn.h>
 
 int main(int argc, char** argv) {
@@ -67,7 +69,7 @@ int main(int argc, char** argv) {
 
     G4HadronicParameters::Instance()->SetEnableHyperNuclei(true);
 
-    G4String namePhysics = "FTFP";
+    G4String namePhysics = "QGSP";
     G4String nameProjectile = "proton";
     G4String nameMaterial = "G4_C";
 
@@ -110,4 +112,10 @@ int main(int argc, char** argv) {
     UnloadAnalysis(analysis, handle);
     return 0;
 }
+
+#ifdef WITH_YODA
+#include "YODA/WriterYODA.h"
+// Force the linker to keep libYODA.so by actually using a symbol
+static auto __force_yoda_link = YODA::WriterYODA::create();
+#endif
 
